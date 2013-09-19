@@ -7,7 +7,7 @@
 // grendel.ece.ncsu.edu
 
 // To compile:
-// gcc -Wall -std=c99 serial.c -o serial -lm
+// gcc -Wall -std=c99 -fopenmp parallel_1.c -o parallel_1 -lm
 //
 // Don't forget to link that pesky math library at the end
 
