@@ -1,3 +1,5 @@
+//setenv OMP_NUM_THREADS 1
+
 #include <stdio.h>
 #include <math.h>
 #include <omp.h>
@@ -17,6 +19,7 @@
 #define PI 3.14159265358979323846 //
 
 int main(int argc, char *argv[]) {
+  double start = omp_get_wtime();
   int numPartitions = CONSTANT*10000; //
 
   double upperLimit = CONSTANT*PI; //
@@ -26,7 +29,7 @@ int main(int argc, char *argv[]) {
 
   interval = upperLimit / numPartitions; //
 
-  #pragma omp parallel for reduction(+:integral)
+  #pragma omp parallel for num_threads(2) reduction(+:integral)
   for (i = 0; i < numPartitions; i++) {
     //Code goes here
     //Approximation of Sine wave
@@ -35,6 +38,11 @@ int main(int argc, char *argv[]) {
     integral += sin((i*interval + (i+1)*interval) / 2) * interval; //
   }
 
-  printf("Estimate of integral is: %10.8lf\n", integral);
+  double end = omp_get_wtime();
+
+  double time = end - start;
+
+  printf("Estimate of integral is: %10.20lf\n", integral);
+  printf("Running time: %f", time);
   return 0;
 }
